@@ -6,6 +6,13 @@ import arg_parser
 import context
 from helpers import kernel_ctl
 
+def run_first():
+    args = arg_parser.sender_first()
+    return ['iperf', '-Z', 'bbr', '-c', args.ip, '-p', args.port, '-t', '75']
+
+def run_second():
+    args = arg_parser.receiver_first()
+    return ['iperf', '-Z', 'bbr', '-s', '-p', args.port]
 
 def setup_bbr():
     # load tcp_bbr kernel module (only available since Linux Kernel 4.9)

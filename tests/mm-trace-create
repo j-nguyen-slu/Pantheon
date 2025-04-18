@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import argparse
+
+def to_bps(rate_str):
+    rate_str = rate_str.lower()
+    if rate_str.endswith("mbps"):
+        return int(float(rate_str[:-4]) * 1_000_000)
+    elif rate_str.endswith("kbps"):
+        return int(float(rate_str[:-4]) * 1_000)
+    else:
+        return int(rate_str)
+
+def generate_trace(uplink_rate, downlink_rate, delay, duration=3600, filename="output.trace"):
+    uplink_bps = to_bps(uplink_rate)
+    downlink_bps = to_bps(downlink_rate)
+
+    with open(filename, 'w') as f:
+        f.write("# uplink\n")
+        for t in range(duration + 1):
+            f.write(f"{t}.000000 {uplink_bps}\n")
+
+        f.write("# downlink\n")
+        for t in range(duration + 1):
+            f.write(f"{t}.000000 {downlink_bps}\n")
+
+        f.write("# delay\n")
+        f.write(f"{delay}\n")
+
+    print(f"Trace file '{filename}' created successfully!")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Create a Mahimahi .trace file")
+    parser.add_argument("--uplink-rate", required=True, help="Uplink rate (e.g., 50Mbps)")
+    parser.add_argument("--downlink-rate", required=True, help="Downlink rate (e.g., 50Mbps)")
+    parser.add_argument("--delay", required=True, help="One-way delay in ms (e.g., 10)")
+    parser.add_argument("--duration", type=int, default=3600, help="Trace duration in seconds (default: 3600)")
+    parser.add_argument("--output", default="output.trace", help="Output trace file name (default: output.trace)")
+
+    args = parser.parse_args()
+    generate_trace(args.uplink_rate, args.downlink_rate, args.delay, args.duration, args.output)

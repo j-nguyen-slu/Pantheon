@@ -335,13 +335,13 @@ class Test(object):
         ts_manager.stdin.write(readline_cmd)
         ts_manager.stdin.flush()
 
-        cmd_to_run_tc = ts_manager.stdout.readline().split()
+        
+cmd_to_run_tc = ts_manager.stdout.readline().split()
         return cmd_to_run_tc
 
     def run_tunnel_client(self, tun_id, tc_manager, cmd_to_run_tc):
         if self.mode == 'local':
-        	print("cmd_to_run_tc =", cmd_to_run_tc)
- 		cmd_to_run_tc[1] = '$MAHIMAHI_BASE'
+            cmd_to_run_tc[1] = '$MAHIMAHI_BASE'
         else:
             if self.server_side == 'remote':
                 cmd_to_run_tc[1] = self.r['ip']
