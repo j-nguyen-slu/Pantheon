@@ -1,0 +1,39 @@
+using "bbr cubic copa"
+created create_trace.py, new_tunnel_manager.py, dummy_tunnel_client.py, plot_data.py
+
+to create a new trace:
+~/Desktop/pantheon/tests$ python3 create_trace.py --rate 1 --output 1mbps.trace
+Trace generated: 1mbps.trace
+Rate: 1.0 Mbps for 60 seconds
+
+to change rtt: go to pantheon/src/wrappers/dummy_tunnel_client
+change sleep time
+
+after running test, go to experiment logs and put all files in their folder
+	acklink
+	datalink
+	recv
+	rttevents
+	sent
+
+##for 50mbps bbr @10 rtt
+mm-link tests/50mbps.trace tests/50mbps.trace   --uplink-log=experiment_logs/50mbps_datalink.log   --downlink-log=experiment_logs/50mbps_acklink.log --   python2 src/experiments/new_tunnel_manager.py --auto-test --scheme bbr --data-dir experiment_logs/50mbps_bbr
+
+##for 50mbps cubic @10 rtt
+mm-link tests/50mbps.trace tests/50mbps.trace   --uplink-log=experiment_logs/50mbps_datalink.log   --downlink-log=experiment_logs/50mbps_acklink.log --   python2 src/experiments/new_tunnel_manager.py --auto-test --scheme cubic --data-dir experiment_logs/50mbps_cubic
+
+## for 50mbps copa @200 rtt
+mm-link tests/50mbps.trace tests/50mbps.trace   --uplink-log=experiment_logs/50mbps_datalink.log   --downlink-log=experiment_logs/50mbps_acklink.log --   python2 src/experiments/new_tunnel_manager.py --auto-test --scheme copa --data-dir experiment_logs/50mbps_copa
+
+
+#####CHANGE DUMMY_TUNNEL_CLIENT SLEEP TIMER TO 0.2
+
+
+## for 1mbps bbr @200 rtt
+mm-link tests/1mbps.trace tests/1mbps.trace   --uplink-log=experiment_logs/1mbps_datalink.log   --downlink-log=experiment_logs/1mbps_acklink.log --   python2 src/experiments/new_tunnel_manager.py --auto-test --scheme bbr --data-dir experiment_logs/1mbps_bbr
+
+## for 1mbps cubic @200 rtt
+mm-link tests/1mbps.trace tests/1mbps.trace   --uplink-log=experiment_logs/1mbps_datalink.log   --downlink-log=experiment_logs/1mbps_acklink.log --   python2 src/experiments/new_tunnel_manager.py --auto-test --scheme cubic --data-dir experiment_logs/1mbps_cubic
+
+## for 1mbps copa @200 rtt
+mm-link tests/1mbps.trace tests/1mbps.trace   --uplink-log=experiment_logs/1mbps_datalink.log   --downlink-log=experiment_logs/1mbps_acklink.log --   python2 src/experiments/new_tunnel_manager.py --auto-test --scheme copa --data-dir experiment_logs/1mbps_copa
